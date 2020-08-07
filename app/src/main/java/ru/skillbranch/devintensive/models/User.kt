@@ -9,17 +9,10 @@ class User(
     var avatar: String?,
     var rating: Int = 0,
     var respect: Int = 0,
-    val lastVisit: Date? = null,
-    val isOnline: Boolean = false
+    var lastVisit: Date? = Date(),
+    var isOnline: Boolean = false
 ) {
-    constructor(id: String, firstName: String?, lastName: String?) : this(
-        id = id,
-        firstName = firstName,
-        lastName = lastName,
-        avatar = null
-    )
-
-    constructor(id: String) : this(id, firstName = "John", lastName = "Doe $id")
+    constructor(id: String) : this(id, null, null, null)
 
     init {
         println("Init")
@@ -37,5 +30,18 @@ class User(
             isOnline: $isOnline
         """.trimIndent()
     )
+
+    companion object Factory {
+        private var id = 0;
+        fun makeUser(fillName: String): User {
+            val name = fillName.split(' ')
+            return User(
+                id++.toString(),
+                firstName = name.firstOrNull(),
+                lastName = name.lastOrNull(),
+                avatar = null
+            )
+        }
+    }
 
 }
